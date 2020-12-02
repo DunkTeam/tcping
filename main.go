@@ -117,9 +117,16 @@ var rootCmd = cobra.Command{
 		}
 
 		parseHost := ping.FormatIP(host)
+		// addr, err := ping.GetIPTwo(parseHost) //提前解析域名
+		// if len(addr) == 0 || err != nil {
+		// 	fmt.Println(err)
+		// 	cmd.Usage()
+		// 	return
+		// }
 		target := ping.Target{
 			Timeout:  timeoutDuration,
 			Interval: intervalDuration,
+			//Host:     addr[0],
 			Host:     parseHost,
 			Port:     port,
 			Counter:  counter,
@@ -164,7 +171,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&timeout, "timeout", "T", "1s", `connect timeout, units are "ns", "us" (or "µs"), "ms", "s", "m", "h"`)
 	rootCmd.Flags().StringVarP(&interval, "interval", "I", "1s", `ping interval, units are "ns", "us" (or "µs"), "ms", "s", "m", "h"`)
 
-	rootCmd.Flags().BoolVarP(&httpMode, "http", "H", false, `Use "HTTP" mode. will ignore URI Schema, force to http`)
+	rootCmd.Flags().BoolVarP(&httpMode, "http", "H", false, `Use "HTTP" mode. will ignore URI Schema, force to http`) //默认使用tcp
 	rootCmd.Flags().BoolVar(&httpHead, "head", false, `Use HEAD instead of GET in http mode.`)
 	rootCmd.Flags().BoolVar(&httpPost, "post", false, `Use POST instead of GET in http mode.`)
 	rootCmd.Flags().StringVar(&httpUA, "user-agent", "tcping", `Use custom UA in http mode.`)
@@ -175,7 +182,7 @@ func init() {
 
 func main() {
 	sigs = make(chan os.Signal, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM) //捕捉信号进行处理
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
