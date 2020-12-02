@@ -1,6 +1,9 @@
 package ping
 
-import "net"
+import (
+	"fmt"
+	"net"
+)
 
 // GetIP ...
 func GetIP(hostname string) string {
@@ -14,4 +17,13 @@ func GetIP(hostname string) string {
 		}
 	}
 	return ""
+}
+
+// GetIPTwo ...
+func GetIPTwo(host string) ([]string, error) {
+	ns, err := net.LookupHost(host)
+	if err != nil {
+		return nil, fmt.Errorf("dns: %v", err)
+	}
+	return ns, nil
 }

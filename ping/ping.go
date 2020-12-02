@@ -25,6 +25,7 @@ func (protocol Protocol) String() string {
 	return "unkown"
 }
 
+// 定义枚举
 const (
 	// TCP is tcp protocol
 	TCP Protocol = iota

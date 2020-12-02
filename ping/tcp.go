@@ -9,11 +9,12 @@ import (
 // TCPing ...
 type TCPing struct {
 	target *Target
-	done   chan struct{}
+	done   chan struct{} //用来通知是否完成
 	result *Result
 }
 
-var _ Pinger = (*TCPing)(nil)
+// nil is the zero value for pointers, interfaces, maps, slices, channels and function types, representing an uninitialized value.
+var _ Pinger = (*TCPing)(nil) //*TCPing类型需要实现Pinger接口，这句表明在编译时就会检查*TCPing是否实现Pinger接口 https://golang.org/doc/effective_go.html#blank_implements
 
 // NewTCPing return a new TCPing
 func NewTCPing() *TCPing {
